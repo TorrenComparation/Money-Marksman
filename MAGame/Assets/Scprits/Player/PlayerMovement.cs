@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rotationX += Input.GetAxis("Mouse Y") * playerStatistic.lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -playerStatistic.lookXLimit, playerStatistic.lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            playerCamera.transform.localRotation = Quaternion.Euler(-rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * playerStatistic.lookSpeed, 0);
         }
     }
