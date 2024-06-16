@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PlayerWallet
   m_EditorClassIdentifier: 
   money: 0
+  moneyPerSecond: 0
