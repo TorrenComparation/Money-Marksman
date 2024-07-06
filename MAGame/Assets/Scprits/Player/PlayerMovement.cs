@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isRunning;
 
     private Vector3 direction = Vector3.zero;
-    private bool canMove = true;
+    public bool canMove = true;
 
 
     private void Start()
@@ -125,4 +125,6 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(direction * Time.deltaTime);
 
     }
+
+
 }
