@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckingForPlayer : MonoBehaviour
 {
-    [SerializeField] private GameObject _confirmPanel;
-    [SerializeField] private MarkInformation _information;
+
+    [SerializeField] private Animator _animator;
+    [SerializeField] private MarkUsing _information;
     [SerializeField] private FreezePlayer _freezePlayer;
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +12,8 @@ public class CheckingForPlayer : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            _confirmPanel.SetActive(true);
+            _information.UpdateInformation();
+            _animator.SetBool("HasArrived", true);
             _freezePlayer.ChangeConfiguration(false);
         }
     }
@@ -22,7 +22,7 @@ public class CheckingForPlayer : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        _confirmPanel.SetActive(false);
+        _animator.SetBool("HasArrived", false);
         _freezePlayer.ChangeConfiguration(true);
     }
 }
