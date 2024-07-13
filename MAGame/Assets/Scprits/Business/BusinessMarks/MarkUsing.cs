@@ -23,8 +23,7 @@ public class MarkUsing : MonoBehaviour
         {
             if (_businessConfig.nameOfBusiness[i] == typeOfBusiness)
             {
-                var color = _particleSystem.colorOverLifetime;
-                color.color = _markColor;
+                ChangeMark();
 
                 price += 100000;
                 moneyPerSecond += 100;
@@ -46,6 +45,7 @@ public class MarkUsing : MonoBehaviour
         if (_walletConfig.money >= price)
         {
             ChangeMark();
+            CalculateResults();
             _businessConfig.nameOfBusiness.Add(typeOfBusiness);
 
             price += 100000;
@@ -57,8 +57,6 @@ public class MarkUsing : MonoBehaviour
     {
         var color = _particleSystem.colorOverLifetime;
         color.color = _markColor;
-
-        CalculateResults();
     }
 
     public void ChooseBusinessMechanic()
