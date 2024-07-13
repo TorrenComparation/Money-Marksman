@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MarkUsing : MonoBehaviour
 {
+    [SerializeField] private Animator _notifAnimator;
     [SerializeField] private  TextMeshProUGUI[] _buyBusinessPanelTexts;
     [SerializeField] private PlayerWallet _walletConfig;
 
@@ -21,10 +22,16 @@ public class MarkUsing : MonoBehaviour
 
     public void BuyBusiness()
     {
-        if(_walletConfig.money >= price)
+        if (_walletConfig.money >= price)
         {
             _walletConfig.money -= price;
             _walletConfig.moneyPerSecond += moneyPerSecond;
         }
-    }
+        else
+        {
+            _notifAnimator.SetBool("GetNotification", true);
+        }
+
+
+    }   
 }
