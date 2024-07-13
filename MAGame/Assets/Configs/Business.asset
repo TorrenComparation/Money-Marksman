@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2841c8578f2e4246998c5bbb5aaf171, type: 3}
   m_Name: Business
   m_EditorClassIdentifier: 
-  nameOfBusiness:
-  - Hospital
-  - Bank
-  - Caffe
+  nameOfBusiness: []

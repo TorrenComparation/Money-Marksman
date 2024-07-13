@@ -1,9 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class MarkUsing : MonoBehaviour
 {
-    [SerializeField] private Animator _notifAnimator;
+    [Header("Settigs Part")]
+    [SerializeField] private Animator _notificationAnimator;
     [SerializeField] private  TextMeshProUGUI[] _buyBusinessPanelTexts;
     [SerializeField] private PlayerWallet _walletConfig;
     [SerializeField] private Business _businessConfig;
@@ -30,7 +33,6 @@ public class MarkUsing : MonoBehaviour
             }
 
         }
-
     }
     public void UpdateInformation()
     {
@@ -50,6 +52,10 @@ public class MarkUsing : MonoBehaviour
 
             price += 100000;
             moneyPerSecond += 100;
+        }
+        else
+        {
+            StartCoroutine(Delay());
         }
     }
 
@@ -75,9 +81,7 @@ public class MarkUsing : MonoBehaviour
                 }
                 else
                 {
-                    UpgradeBusiness();
-
-                   
+                    UpgradeBusiness();    
                 }
             }
         }
@@ -97,5 +101,12 @@ public class MarkUsing : MonoBehaviour
     {
         _walletConfig.money -= price;
         _walletConfig.moneyPerSecond += moneyPerSecond;
+    }
+
+    private IEnumerator Delay()
+    {
+        _notificationAnimator.SetBool("GetNotification", true);
+        yield return new WaitForSeconds(1f);
+        _notificationAnimator.SetBool("GetNotification", false);
     }
 }
