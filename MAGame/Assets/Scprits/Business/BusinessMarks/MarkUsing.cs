@@ -6,8 +6,8 @@ using UnityEngine;
 public class MarkUsing : MonoBehaviour
 {
     [Header("Settigs Part")]
-    [SerializeField] private Animator _notificationAnimator;
-    [SerializeField] private  TextMeshProUGUI[] _buyBusinessPanelTexts;
+    [SerializeField] private ShowNotifications _notification;
+    [SerializeField] private TextMeshProUGUI[] _buyBusinessPanelTexts;
     [SerializeField] private PlayerWallet _walletConfig;
     [SerializeField] private Business _businessConfig;
     [SerializeField] private ParticleSystem _particleSystem;
@@ -55,7 +55,7 @@ public class MarkUsing : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Delay());
+            _notification.NotEnoughtMoney();
         }
     }
 
@@ -103,10 +103,4 @@ public class MarkUsing : MonoBehaviour
         _walletConfig.moneyPerSecond += moneyPerSecond;
     }
 
-    private IEnumerator Delay()
-    {
-        _notificationAnimator.SetBool("GetNotification", true);
-        yield return new WaitForSeconds(1f);
-        _notificationAnimator.SetBool("GetNotification", false);
-    }
 }
