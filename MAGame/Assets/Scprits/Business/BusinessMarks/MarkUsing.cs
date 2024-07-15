@@ -1,61 +1,92 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using System;
 using UnityEngine;
 
 public class MarkUsing : MonoBehaviour
 {
-    [Header("Settigs Part")]
-    [SerializeField] private ShowNotifications _notification;
+    [Header("Settings Part")]
     [SerializeField] private TextMeshProUGUI[] _buyBusinessPanelTexts;
+    [SerializeField] private ShowNotifications _notification;
     [SerializeField] private PlayerWallet _walletConfig;
-    [SerializeField] private Business _businessConfig;
+    [SerializeField] private CurrentBusiness _businessConfig;
+    [SerializeField] private AllBusiness _allBusinessInformationConfig;
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Gradient _markColor;
-
-    [Header("Main Part")]
-    [SerializeField] private string attention;
-    [SerializeField] private string description;
-    [SerializeField] private int price;
-    [SerializeField] private int moneyPerSecond;
-    [SerializeField] private string typeOfBusiness;
+    [SerializeField] private string businessName;
+    public int _index;
 
     private void Start()
     {
-        for (int i = 0; i < _businessConfig.nameOfBusiness.Count; i++)
+        InitializeBusinessIndex();
+        InitializeBusinessValues();
+    }
+
+    private void InitializeBusinessIndex()
+    {
+        for (int i = 0; i < _allBusinessInformationConfig.businessInfomrations.Count; i++)
         {
-            if (_businessConfig.nameOfBusiness[i] == typeOfBusiness)
+            if (_allBusinessInformationConfig.businessInfomrations[i].typeOfBusiness == businessName)
             {
-                ChangeMark();
-
-                price += 100000;
-                moneyPerSecond += 100;
+                _index = i;
+                break; // Оптимизация: выходим из цикла после нахождения
             }
-
         }
     }
-    public void UpdateInformation()
+
+    private void InitializeBusinessValues()
     {
-        _buyBusinessPanelTexts[0].text = attention;
-        _buyBusinessPanelTexts[1].text = description;
-        _buyBusinessPanelTexts[2].text = price.ToString();
-        _buyBusinessPanelTexts[3].text = moneyPerSecond.ToString();
+        if (_businessConfig.nameOfBusiness.Contains(businessName))
+        {
+            var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
+            ChangeMark();
+            IncreasePriceAndRevenue(businessInfo);
+            UpdateInformation(businessInfo);
+        }
+    }
+
+    public void UpdateInformation(BusinessInfomration businessInfo)
+    {
+        _buyBusinessPanelTexts[0].text = businessName;
+        _buyBusinessPanelTexts[1].text = businessInfo.description;
+        _buyBusinessPanelTexts[2].text = businessInfo.price.ToString();
+        _buyBusinessPanelTexts[3].text = businessInfo.moneyPerSecond.ToString();
+    }
+
+    public void ChooseBusinessMechanic()
+    {
+        if (_businessConfig.nameOfBusiness.Contains(businessName))
+        {
+            UpgradeBusiness();
+        }
+        else
+        {
+            BuyBusiness();
+        }
     }
 
     private void BuyBusiness()
     {
-        if (_walletConfig.money >= price)
+        var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
+        if (_walletConfig.money >= businessInfo.price)
         {
             ChangeMark();
-            CalculateResults();
-            _businessConfig.nameOfBusiness.Add(typeOfBusiness);
-
-            price += 100000;
-            moneyPerSecond += 100;
+            CalculateResults(businessInfo);
+            _businessConfig.nameOfBusiness.Add(businessName);
+            IncreasePriceAndRevenue(businessInfo);
         }
         else
         {
             _notification.NotEnoughtMoney();
+        }
+    }
+
+    private void UpgradeBusiness()
+    {
+        var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
+        if (_walletConfig.money >= businessInfo.price)
+        {
+            CalculateResults(businessInfo);
+            IncreasePriceAndRevenue(businessInfo);
         }
     }
 
@@ -65,42 +96,15 @@ public class MarkUsing : MonoBehaviour
         color.color = _markColor;
     }
 
-    public void ChooseBusinessMechanic()
+    private void CalculateResults(BusinessInfomration businessInfo)
     {
-        if (_businessConfig.nameOfBusiness.Count == 0)
-        {
-            BuyBusiness();
-        }
-        else
-        {
-            for (int i = 0; i < _businessConfig.nameOfBusiness.Count; i++)
-            {
-                if (_businessConfig.nameOfBusiness[i] != typeOfBusiness)
-                {
-                    BuyBusiness();
-                }
-                else
-                {
-                    UpgradeBusiness();    
-                }
-            }
-        }
-    }
-    private void UpgradeBusiness()
-    {
-
-        if (_walletConfig.money >= price)
-        {
-            CalculateResults();
-            price += 100000;
-            moneyPerSecond += 100;
-        }
+        _walletConfig.money -= businessInfo.price;
+        _walletConfig.moneyPerSecond += businessInfo.moneyPerSecond;
     }
 
-    private void CalculateResults()
+    private void IncreasePriceAndRevenue(BusinessInfomration businessInfo)
     {
-        _walletConfig.money -= price;
-        _walletConfig.moneyPerSecond += moneyPerSecond;
+        businessInfo.price += businessInfo.price * businessInfo.precentageOfPriceInrcease / 100;
+        businessInfo.moneyPerSecond += businessInfo.moneyPerSecond * businessInfo.precentageOfProfitInrcease / 100;
     }
-
 }

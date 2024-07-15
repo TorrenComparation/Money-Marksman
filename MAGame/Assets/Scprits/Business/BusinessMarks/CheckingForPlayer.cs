@@ -12,7 +12,7 @@ public class CheckingForPlayer : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            _information.UpdateInformation();
+         //   _information.UpdateInformation();
             _animator.SetBool("HasArrived", true);
             _freezePlayer.ChangeConfiguration(false);
         }
