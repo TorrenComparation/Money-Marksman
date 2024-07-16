@@ -9,6 +9,6 @@ public class BalanceUpdate : MonoBehaviour
     private void Update()
     {
         _balanceText.text = _playerWallet.money.ToString();
-        _moneyPerSecondText.text =  $"{_playerWallet.moneyPerSecond}/s";
+        _moneyPerSecondText.text =  $"{_playerWallet.moneyPerSecond}/m";
     }
 }

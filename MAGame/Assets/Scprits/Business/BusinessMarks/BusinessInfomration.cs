@@ -7,8 +7,9 @@
     public int moneyPerSecond;
     public int precentageOfPriceInrcease;
     public int precentageOfProfitInrcease;
+    public int businessLevel;
 
-    public BusinessInfomration(string description, string typeOfBusiness, int price, int moneyPerSecond, int precentageOfPriceInrcease, int precentageOfProfitInrcease)
+    public BusinessInfomration(string description, string typeOfBusiness, int price, int moneyPerSecond, int precentageOfPriceInrcease, int precentageOfProfitInrcease, int businessLevel)
     {
         this.description = description;
         this.typeOfBusiness = typeOfBusiness;
@@ -16,5 +17,6 @@
         this.moneyPerSecond = moneyPerSecond;
         this.precentageOfPriceInrcease = precentageOfPriceInrcease;
         this.precentageOfProfitInrcease = precentageOfProfitInrcease;
+        this.businessLevel = businessLevel;
     }
 }

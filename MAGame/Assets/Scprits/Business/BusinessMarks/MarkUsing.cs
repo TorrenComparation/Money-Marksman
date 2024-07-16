@@ -1,5 +1,4 @@
 using TMPro;
-using System;
 using UnityEngine;
 
 public class MarkUsing : MonoBehaviour
@@ -13,7 +12,8 @@ public class MarkUsing : MonoBehaviour
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Gradient _markColor;
     [SerializeField] private string businessName;
-    public int _index;
+    [SerializeField] private int maxLevel;
+    private int _index;
 
     private void Start()
     {
@@ -28,40 +28,53 @@ public class MarkUsing : MonoBehaviour
             if (_allBusinessInformationConfig.businessInfomrations[i].typeOfBusiness == businessName)
             {
                 _index = i;
-                break; // Оптимизация: выходим из цикла после нахождения
+                break;
             }
         }
     }
 
     private void InitializeBusinessValues()
     {
+        var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
         if (_businessConfig.nameOfBusiness.Contains(businessName))
         {
-            var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
             ChangeMark();
-            IncreasePriceAndRevenue(businessInfo);
-            UpdateInformation(businessInfo);
         }
     }
 
-    public void UpdateInformation(BusinessInfomration businessInfo)
+    public void UpdateInformation()
     {
+        var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
         _buyBusinessPanelTexts[0].text = businessName;
         _buyBusinessPanelTexts[1].text = businessInfo.description;
-        _buyBusinessPanelTexts[2].text = businessInfo.price.ToString();
-        _buyBusinessPanelTexts[3].text = businessInfo.moneyPerSecond.ToString();
+        if (businessInfo.businessLevel == maxLevel)
+        {
+            _buyBusinessPanelTexts[2].text = "MAX LVL";
+            _buyBusinessPanelTexts[3].text = "MAX LVL";
+            _buyBusinessPanelTexts[4].text = "MAX";
+        }
+        else
+        {
+            _buyBusinessPanelTexts[2].text = businessInfo.price.ToString();
+            _buyBusinessPanelTexts[3].text = businessInfo.moneyPerSecond.ToString();
+            _buyBusinessPanelTexts[4].text = businessInfo.businessLevel.ToString() + $"/{maxLevel}";
+        }
+
     }
 
     public void ChooseBusinessMechanic()
     {
-        if (_businessConfig.nameOfBusiness.Contains(businessName))
+        if (_allBusinessInformationConfig.businessInfomrations[_index].businessLevel < maxLevel)
         {
-            UpgradeBusiness();
-        }
-        else
-        {
-            BuyBusiness();
-        }
+            if (_businessConfig.nameOfBusiness.Contains(businessName))
+            {
+                UpgradeBusiness();
+            }
+            else
+            {
+                BuyBusiness();
+            }
+        }   
     }
 
     private void BuyBusiness()
@@ -73,6 +86,7 @@ public class MarkUsing : MonoBehaviour
             CalculateResults(businessInfo);
             _businessConfig.nameOfBusiness.Add(businessName);
             IncreasePriceAndRevenue(businessInfo);
+            businessInfo.businessLevel++;
         }
         else
         {
@@ -83,11 +97,14 @@ public class MarkUsing : MonoBehaviour
     private void UpgradeBusiness()
     {
         var businessInfo = _allBusinessInformationConfig.businessInfomrations[_index];
-        if (_walletConfig.money >= businessInfo.price)
+        if (_walletConfig.money >= businessInfo.price && businessInfo.businessLevel < maxLevel)
         {
             CalculateResults(businessInfo);
             IncreasePriceAndRevenue(businessInfo);
+            UpdateInformation();
+            businessInfo.businessLevel++;
         }
+
     }
 
     private void ChangeMark()
