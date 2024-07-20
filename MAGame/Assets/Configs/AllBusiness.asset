@@ -22,8 +22,8 @@ MonoBehaviour:
     businessLevel: 0
   - typeOfBusiness: Cinema
     description: Here you can watch movies
-    price: 100000
-    moneyPerSecond: 1200
+    price: 130000
+    moneyPerSecond: 1500
     precentageOfPriceInrcease: 30
     precentageOfProfitInrcease: 25
-    businessLevel: 0
+    businessLevel: 10

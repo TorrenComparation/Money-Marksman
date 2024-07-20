@@ -104,6 +104,10 @@ public class MarkUsing : MonoBehaviour
             UpdateInformation();
             businessInfo.businessLevel++;
         }
+        else if(_walletConfig.money < businessInfo.price)
+        {
+            _notification.NotEnoughtMoney();
+        }
 
     }
 
