@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private PlayerStatistic playerStatistic;
+    [SerializeField] private Animator animator;
 
     private float rotationX;
     private float currentSpeedX;
@@ -45,7 +46,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isRunning == true)
             {
-                currentSpeedX = playerStatistic.runSpeed * moveX;
+                CameraShake(2);
+                 currentSpeedX = playerStatistic.runSpeed * moveX;
                 currentSpeedY = playerStatistic.runSpeed * moveY;
 
                 if (moveY != 0 && moveX != 0)
@@ -56,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                CameraShake(1);
                 currentSpeedX = playerStatistic.walkSpeed * moveX;
                 currentSpeedY = playerStatistic.walkSpeed * moveY;
 
@@ -77,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && canMove == true)
         {
+            CameraShake(3);
             characterController.height = playerStatistic.crouchHeigth;
             playerStatistic.walkSpeed = playerStatistic.crouchSpeed;
             playerStatistic.runSpeed = playerStatistic.crouchSpeed;
@@ -100,6 +104,17 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * playerStatistic.lookSpeed, 0);
         }
     }
+    private void CameraShake(int index)
+    {
+        if (moveY != 0 || moveX != 0)
+        {
+            animator.SetInteger("TypeOfShacking", index);
+        }
+        else
+        {
+            animator.SetInteger("TypeOfShacking", 0);
+        }
+    }
     private void Jump()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -113,7 +128,8 @@ public class PlayerMovement : MonoBehaviour
             direction.y = playerStatistic.jumpForce;
         }
         else
-        {direction.y = movementDirectionY;
+        {
+            direction.y = movementDirectionY;
 
 
         }

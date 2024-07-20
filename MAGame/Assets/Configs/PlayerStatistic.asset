@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7916961d96e0027409fd8e71918daf86, type: 3}
   m_Name: PlayerStatistic
   m_EditorClassIdentifier: 
-  walkSpeed: 4
+  _crouchSpeed: 4
+  _jumpForce: 5
+  _gravity: 10
+  _lookSpeed: 0.5
+  _lookXLimit: 45
+  _defaultHeight: 2.5
+  _crouchHeigth: 2
+  walkSpeed: 6
   runSpeed: 8
-  crouchSpeed: 2
-  jumpForce: 5
-  gravity: 10
-  lookSpeed: 0.5
-  lookXLimit: 75
-  defaultHeight: 1.5
-  crouchHeigth: 1
