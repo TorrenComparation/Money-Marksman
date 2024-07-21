@@ -7,5 +7,6 @@ public class FreezePlayer : MonoBehaviour
     public void ChangeConfiguration(bool canMove)
     {
         _playerMovement.canMove = canMove;
+        _playerMovement.CameraShake(0);
     }
 }

@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
             if (isRunning == true)
             {
                 CameraShake(2);
-                 currentSpeedX = playerStatistic.runSpeed * moveX;
+                currentSpeedX = playerStatistic.runSpeed * moveX;
                 currentSpeedY = playerStatistic.runSpeed * moveY;
 
                 if (moveY != 0 && moveX != 0)
@@ -104,16 +104,25 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * playerStatistic.lookSpeed, 0);
         }
     }
-    private void CameraShake(int index)
+    public void CameraShake(int index)
     {
-        if (moveY != 0 || moveX != 0)
+
+        if (canMove)
         {
-            animator.SetInteger("TypeOfShacking", index);
+            if (moveY != 0 || moveX != 0)
+            {
+                animator.SetInteger("TypeOfShacking", index);
+            }
+            else
+            {
+                animator.SetInteger("TypeOfShacking", 0);
+            }
         }
         else
         {
             animator.SetInteger("TypeOfShacking", 0);
         }
+
     }
     private void Jump()
     {
