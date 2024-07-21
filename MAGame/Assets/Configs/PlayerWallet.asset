@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fcf6d2ed5ce9e4aac1e1e55b39145b, type: 3}
   m_Name: PlayerWallet
   m_EditorClassIdentifier: 
-  money: 30000
-  moneyPerSecond: 357
+  money: 220282
+  moneyPerSecond: 9118

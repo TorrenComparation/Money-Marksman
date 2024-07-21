@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private PlayerStatistic playerStatistic;
+    [SerializeField] private Animator animator;
 
     private float rotationX;
     private float currentSpeedX;
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isRunning;
 
     private Vector3 direction = Vector3.zero;
-    private bool canMove = true;
+    public bool canMove = true;
 
 
     private void Start()
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isRunning == true)
             {
+                CameraShake(2);
                 currentSpeedX = playerStatistic.runSpeed * moveX;
                 currentSpeedY = playerStatistic.runSpeed * moveY;
 
@@ -56,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                CameraShake(1);
                 currentSpeedX = playerStatistic.walkSpeed * moveX;
                 currentSpeedY = playerStatistic.walkSpeed * moveY;
 
@@ -77,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && canMove == true)
         {
+            CameraShake(3);
             characterController.height = playerStatistic.crouchHeigth;
             playerStatistic.walkSpeed = playerStatistic.crouchSpeed;
             playerStatistic.runSpeed = playerStatistic.crouchSpeed;
@@ -100,6 +104,26 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * playerStatistic.lookSpeed, 0);
         }
     }
+    public void CameraShake(int index)
+    {
+
+        if (canMove)
+        {
+            if (moveY != 0 || moveX != 0)
+            {
+                animator.SetInteger("TypeOfShacking", index);
+            }
+            else
+            {
+                animator.SetInteger("TypeOfShacking", 0);
+            }
+        }
+        else
+        {
+            animator.SetInteger("TypeOfShacking", 0);
+        }
+
+    }
     private void Jump()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -113,7 +137,8 @@ public class PlayerMovement : MonoBehaviour
             direction.y = playerStatistic.jumpForce;
         }
         else
-        {direction.y = movementDirectionY;
+        {
+            direction.y = movementDirectionY;
 
 
         }
@@ -125,4 +150,6 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(direction * Time.deltaTime);
 
     }
+
+
 }

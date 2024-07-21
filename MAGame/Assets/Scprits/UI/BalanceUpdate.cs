@@ -8,7 +8,7 @@ public class BalanceUpdate : MonoBehaviour
     [SerializeField] private PlayerWallet _playerWallet;
     private void Update()
     {
-        _balanceText.text = _playerWallet.money.ToString();
-        _moneyPerSecondText.text =  $"{_playerWallet.moneyPerSecond}/s";
+        _balanceText.text = BalanceConvertor.ConvertMoney(_playerWallet.money);
+        _moneyPerSecondText.text =  $"{_playerWallet.moneyPerSecond}/m";
     }
 }
