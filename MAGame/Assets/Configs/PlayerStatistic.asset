@@ -16,7 +16,7 @@ MonoBehaviour:
   _jumpForce: 5
   _gravity: 10
   _lookSpeed: 0.5
-  _lookXLimit: 45
+  _lookXLimit: 60
   _defaultHeight: 2.5
   _crouchHeigth: 2
   walkSpeed: 6
