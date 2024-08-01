@@ -7,10 +7,20 @@ public class Timer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Animator animatorPanel;
     [SerializeField] private GameObject counting;
-    [SerializeField, Range(0, 59)] private int minute;
+    [SerializeField, Range(0, 60)] private int minute;
     [SerializeField, Range(0, 59)] private int second;
 
-    private const int maxSeconds = 59;
+    private const int MaxSeconds = 59;
+
+    private void OnValidate()
+    {
+        if (timerText == null)
+            Debug.LogWarning("Timer Text is not assigned.", this);
+        if (animatorPanel == null)
+            Debug.LogWarning("Animator Panel is not assigned.", this);
+        if (counting == null)
+            Debug.LogWarning("Counting GameObject is not assigned.", this);
+    }
 
     private void OnEnable()
     {
@@ -27,7 +37,7 @@ public class Timer : MonoBehaviour
                 return;
             }
             minute--;
-            second = maxSeconds;
+            second = MaxSeconds;
         }
         else
         {
@@ -45,9 +55,7 @@ public class Timer : MonoBehaviour
 
     private void UpdateTimerText()
     {
-        string minutesText = minute.ToString("00");
-        string secondsText = second.ToString("00");
-        timerText.text = $"{minutesText}:{secondsText}";
+        timerText.text = $"{minute:00}:{second:00}";
     }
 
     private IEnumerator StartMinigame()

@@ -15,7 +15,7 @@ MonoBehaviour:
   businessInfomrations:
   - typeOfBusiness: Bank
     description: Here you can watch movies
-    price: 100000
+    price: 100001
     moneyPerSecond: 1200
     precentageOfPriceInrcease: 30
     precentageOfProfitInrcease: 25
