@@ -50,6 +50,7 @@ public class GarbageCollection : MonoBehaviour
     {
         isPlaying = false;
         minigameObject.SetActive(false);
+        timer.StopTimer();
         SetPlayerPosition();
         notification.GetNotification($"Erned {AccuralMoney()}$");
     }

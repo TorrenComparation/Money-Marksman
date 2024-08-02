@@ -55,6 +55,11 @@ public class Timer : MonoBehaviour
     private void EndMinigame()
     {
         minigamesLoader.EndedMinigame();
+        StopTimer();
+    }
+
+    public void StopTimer()
+    {
         animatorPanel.SetBool("HasStarted", false);
         CancelInvoke(nameof(UpdateTimer));
     }

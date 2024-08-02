@@ -11,6 +11,7 @@ public class UsingMinigamesMark : MonoBehaviour
     [Header("Minigame configuration")]
     [SerializeField] private TypeOfMinigame.Minigames minigames;
     [SerializeField] private AllMinigames allMinigamesInformation;
+    [SerializeField] private FreezeMark freezeMark;
     [SerializeField] private MinigamesLoader minigamesLoader;
     [SerializeField] private int numberOfPlace; 
 
@@ -47,9 +48,9 @@ public class UsingMinigamesMark : MonoBehaviour
     {
         if(minigames == TypeOfMinigame.Minigames.Garbage_Colletion)
         {
-          minigamesLoader.LoadGarbageColletion(numberOfPlace);
+            freezeMark.DelayBetweenMinigame();
+            minigamesLoader.LoadGarbageColletion(numberOfPlace);
         }
-      
     }
 }
 
