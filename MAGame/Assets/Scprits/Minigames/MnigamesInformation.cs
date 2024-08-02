@@ -18,9 +18,10 @@ public class MnigamesInformation
     public int maxClasicalSalary;
     public int minSalaryWithFine;
     public int maxSalaryWithFine;
+    public float salaryMultiply;
 
   
-    public MnigamesInformation(string description, TypeOfMinigame.Minigames minigames, int minClasicalSalary, int maxClasicalSalary, int minSalaryWithFine, int maxSalaryWithFine, int precentageOfPriceInrcease, int precentageOfProfitInrcease, int businessLevel)
+    public MnigamesInformation(string description, TypeOfMinigame.Minigames minigames, int minClasicalSalary, int maxClasicalSalary, int minSalaryWithFine, int maxSalaryWithFine, float salaryMultiply)
     {
         this.description = description;
         this.minigames = minigames;
@@ -28,5 +29,6 @@ public class MnigamesInformation
         this.maxClasicalSalary = maxClasicalSalary;
         this.minSalaryWithFine = minSalaryWithFine;
         this.maxSalaryWithFine = minSalaryWithFine;
+        this.salaryMultiply = salaryMultiply;
     }
 }

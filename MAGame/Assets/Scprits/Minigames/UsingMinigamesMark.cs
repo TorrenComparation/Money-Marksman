@@ -8,6 +8,7 @@ public class UsingMinigamesMark : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] minigamesPanelTexts;
     [SerializeField] private ShowNotifications notification;
     [SerializeField] private AllMinigames allMinigamesInformation;
+    [SerializeField] private MinigamesLoader minigamesLoader;
     [SerializeField] private TypeOfMinigame.Minigames minigames;
     private int index;
     private void Start()
@@ -28,14 +29,21 @@ public class UsingMinigamesMark : MonoBehaviour
         }
     }
 
-    public void UpdateInformation()
+    private void UpdateInformation()
     {
         var minigamesInfo = allMinigamesInformation.minigamesInfomrations[index];
-        Debug.Log(minigames.ToString().Replace("_", " "));
         minigamesPanelTexts[0].text = minigames.ToString().Replace("_", " ");
         minigamesPanelTexts[1].text = minigamesInfo.description;
         minigamesPanelTexts[2].text = $"{minigamesInfo.minClasicalSalary}-{minigamesInfo.maxClasicalSalary}";
         minigamesPanelTexts[3].text = $"{minigamesInfo.minSalaryWithFine}-{minigamesInfo.maxSalaryWithFine}";
+    }
+
+    public void LoadMinigame(int locationIndex)
+    {
+        if(minigames == TypeOfMinigame.Minigames.Garbage_Colletion)
+        {
+            minigamesLoader.LoadGarbageColletion(locationIndex);
+        }
     }
 }
 

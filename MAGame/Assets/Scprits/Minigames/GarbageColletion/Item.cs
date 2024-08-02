@@ -6,4 +6,5 @@ public class Item : Interactable
     {
        
     }
+    protected int GarbagePickUp() => 1;
 }

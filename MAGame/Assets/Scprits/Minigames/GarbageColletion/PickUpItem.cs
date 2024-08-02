@@ -3,11 +3,11 @@ using UnityEngine;
 public class PickUpItem : Item
 {
     [SerializeField] private float _pickUpRange;
-    [SerializeField] private LayerMask itemMask;
-
+    [SerializeField] private ItemConfig itemConfig;
     private bool isLoocking;
 
     private Interactable previousInteractable;
+    private Interactable interactable;
 
     protected override void Update()
     {
@@ -25,11 +25,16 @@ public class PickUpItem : Item
 
         if (Physics.Raycast(ray, out hit, _pickUpRange))
         {
-            var interactable = hit.collider.GetComponent<Interactable>();
-
-            if (isLoocking && Input.GetKeyDown(KeyCode.E))
+            if (hit.collider.CompareTag("Garbage"))
             {
-                hit.collider.gameObject.SetActive(false);
+                interactable = hit.collider.GetComponent<Interactable>();
+
+                if (isLoocking && Input.GetKeyDown(KeyCode.E))
+                {
+                    itemConfig.items = GarbagePickUp(); 
+                    hit.collider.gameObject.SetActive(false);
+
+                }
             }
 
             if (interactable != null)
@@ -50,3 +55,4 @@ public class PickUpItem : Item
         }
     }
 }
+

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 668909895172659533}
   m_Layer: 3
   m_Name: SM_Prop_Bottle_01
-  m_TagString: Untagged
+  m_TagString: Garbage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
