@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class PickUpItem : Item
 {
-    [SerializeField] private float _pickUpRange;
-    [SerializeField] private ItemConfig itemConfig;
-    private bool isLoocking;
-
     private Interactable previousInteractable;
     private Interactable interactable;
+
+    private bool isLoocking;
 
     protected override void Update()
     {
@@ -31,10 +29,14 @@ public class PickUpItem : Item
 
                 if (isLoocking && Input.GetKeyDown(KeyCode.E))
                 {
-                    itemConfig.items = GarbagePickUp(); 
+                    itemConfig.items += GarbagePickUp(); 
                     hit.collider.gameObject.SetActive(false);
 
                 }
+            }
+            else
+            {
+                interactable = null;
             }
 
             if (interactable != null)

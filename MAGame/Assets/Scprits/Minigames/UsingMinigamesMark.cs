@@ -1,23 +1,28 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UsingMinigamesMark : MonoBehaviour
 {
-
-    [Header("Settings Part")]
+    [Header("UI Part")]
     [SerializeField] private TextMeshProUGUI[] minigamesPanelTexts;
     [SerializeField] private ShowNotifications notification;
+    [SerializeField] private Button onButtonClick;
+    [Header("Minigame configuration")]
+    [SerializeField] private TypeOfMinigame.Minigames minigames;
     [SerializeField] private AllMinigames allMinigamesInformation;
     [SerializeField] private MinigamesLoader minigamesLoader;
-    [SerializeField] private TypeOfMinigame.Minigames minigames;
+    [SerializeField] private int numberOfPlace; 
+
     private int index;
     private void Start()
     {
-        InitializeBusinessIndex();
+        InitializeMinigameIndex();
         UpdateInformation();
+        onButtonClick.onClick.AddListener(LoadMinigame);
     }
 
-    private void InitializeBusinessIndex()
+    private void InitializeMinigameIndex()
     {
         for (int i = 0; i < allMinigamesInformation.minigamesInfomrations.Count; i++)
         {
@@ -34,16 +39,17 @@ public class UsingMinigamesMark : MonoBehaviour
         var minigamesInfo = allMinigamesInformation.minigamesInfomrations[index];
         minigamesPanelTexts[0].text = minigames.ToString().Replace("_", " ");
         minigamesPanelTexts[1].text = minigamesInfo.description;
-        minigamesPanelTexts[2].text = $"{minigamesInfo.minClasicalSalary}-{minigamesInfo.maxClasicalSalary}";
-        minigamesPanelTexts[3].text = $"{minigamesInfo.minSalaryWithFine}-{minigamesInfo.maxSalaryWithFine}";
+        minigamesPanelTexts[2].text = $"{minigamesInfo.classicalSalary * 30}-{minigamesInfo.classicalSalary * 50}";
+        minigamesPanelTexts[3].text = $"{minigamesInfo.salaryWithFine*1}-{minigamesInfo.salaryWithFine * 29}";
     }
 
-    public void LoadMinigame(int locationIndex)
+    private void LoadMinigame()
     {
         if(minigames == TypeOfMinigame.Minigames.Garbage_Colletion)
         {
-            minigamesLoader.LoadGarbageColletion(locationIndex);
+          minigamesLoader.LoadGarbageColletion(numberOfPlace);
         }
+      
     }
 }
 

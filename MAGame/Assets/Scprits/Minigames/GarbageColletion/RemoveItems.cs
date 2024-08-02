@@ -1,15 +1,15 @@
+using TMPro;
 using UnityEngine;
 
 public class RemoveItems : Item
 {
-    [SerializeField] private float _pickUpRange;
-    [SerializeField] private int collectedItems;
-    [SerializeField] private ItemConfig itemConfig;
-    private bool isLoocking;
-
+    [SerializeField] private MinigamesLoader minigamesLoader;
+    [SerializeField] private TextMeshProUGUI messageText;
+    
     private Interactable previousInteractable;
     private Interactable interactable;
 
+    private bool isLoocking;
     protected override void Update()
     {
         base.Update();
@@ -25,15 +25,19 @@ public class RemoveItems : Item
 
         if (Physics.Raycast(ray, out hit, _pickUpRange))
         {
-            if (hit.collider.CompareTag("Trash"))
+            if (MinigamesLoader.isMinigamePlaying && hit.collider.CompareTag("Trash"))
             {
                 interactable = hit.collider.GetComponent<Interactable>();
+                messageText.text = $"Remain trash: {itemConfig.itemsInLevel - itemConfig.itemsCleared} \n\n Press E to take out the trash";
 
                 if (isLoocking && Input.GetKeyDown(KeyCode.E))
                 {
-                    itemConfig.itemsCleared += itemConfig.items;
-                    itemConfig.items = 0;
+                    UpdateConfig();
                 }
+            }
+            else
+            {
+                interactable = null;
             }
 
             if (interactable != null)
@@ -42,15 +46,28 @@ public class RemoveItems : Item
                 {
                     previousInteractable = interactable;
                     previousInteractable.OnHoverEnter();
+                    messageText.gameObject.SetActive(true);
                     isLoocking = true;
                 }
             }
             else if (previousInteractable != null)
             {
                 previousInteractable.OnHoverExit();
+                messageText.gameObject.SetActive(false);
                 previousInteractable = null;
                 isLoocking = false;
             }
+        }
+    }
+
+    private void UpdateConfig()
+    {
+        itemConfig.itemsCleared += itemConfig.items;
+        itemConfig.items = 0;
+
+        if(itemConfig.itemsInLevel == itemConfig.itemsCleared)
+        {
+            minigamesLoader.EndedMinigame();
         }
     }
 }

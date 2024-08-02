@@ -14,21 +14,17 @@ public class MnigamesInformation
 {
     public TypeOfMinigame.Minigames minigames;
     public string description;
-    public int minClasicalSalary;
-    public int maxClasicalSalary;
-    public int minSalaryWithFine;
-    public int maxSalaryWithFine;
+    public int classicalSalary;
+    public int salaryWithFine;
     public float salaryMultiply;
 
   
-    public MnigamesInformation(string description, TypeOfMinigame.Minigames minigames, int minClasicalSalary, int maxClasicalSalary, int minSalaryWithFine, int maxSalaryWithFine, float salaryMultiply)
+    public MnigamesInformation(string description, TypeOfMinigame.Minigames minigames, int classicalSalary, int salaryWithFine, float salaryMultiply)
     {
         this.description = description;
         this.minigames = minigames;
-        this.minClasicalSalary = minClasicalSalary;
-        this.maxClasicalSalary = maxClasicalSalary;
-        this.minSalaryWithFine = minSalaryWithFine;
-        this.maxSalaryWithFine = minSalaryWithFine;
+        this.classicalSalary = classicalSalary;
+        this.salaryWithFine = salaryWithFine;
         this.salaryMultiply = salaryMultiply;
     }
 }

@@ -16,19 +16,16 @@ MonoBehaviour:
   - minigames: 0
     description: Your tesk is to pick up trash within 2 minutes, if you can't pick
       up all the trash in that time you will receive a fine with a pay cut.
-    minClasicalSalary: 1500
-    maxClasicalSalary: 2500
-    minSalaryWithFine: 30
-    maxSalaryWithFine: 1470
+    classicalSalary: 50
+    salaryWithFine: 30
+    salaryMultiply: 1
   - minigames: 1
     description: 
-    minClasicalSalary: 0
-    maxClasicalSalary: 0
-    minSalaryWithFine: 0
-    maxSalaryWithFine: 0
+    classicalSalary: 0
+    salaryWithFine: 0
+    salaryMultiply: 1
   - minigames: 2
     description: 
-    minClasicalSalary: 0
-    maxClasicalSalary: 0
-    minSalaryWithFine: 0
-    maxSalaryWithFine: 0
+    classicalSalary: 0
+    salaryWithFine: 0
+    salaryMultiply: 1

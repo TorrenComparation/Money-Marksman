@@ -3,9 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Outline))]
 public abstract class Interactable : MonoBehaviour
 {
-    public float interactableRadius = 2;
-    protected GameObject subject;
     [SerializeField] private Outline outline;
+    [SerializeField] protected ItemConfig itemConfig;
+    [SerializeField] protected float _pickUpRange = 5;
+    protected GameObject subject;
     private bool hasInteractable = false;
 
     public abstract void Interact(GameObject subject);
