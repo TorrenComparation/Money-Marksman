@@ -4,10 +4,10 @@ using UnityEngine;
 public class RemoveItems : Item
 {
     [SerializeField] private MinigamesLoader minigamesLoader;
-    [SerializeField] private TextMeshProUGUI messageText;
-    
+
     private Interactable previousInteractable;
     private Interactable interactable;
+    private TrashbinClear trashbinIntraction;
 
     private bool isLoocking;
     protected override void Update()
@@ -28,46 +28,58 @@ public class RemoveItems : Item
             if (MinigamesLoader.isMinigamePlaying && hit.collider.CompareTag("Trash"))
             {
                 interactable = hit.collider.GetComponent<Interactable>();
-                messageText.text = $"Remain trash: {itemConfig.itemsInLevel - itemConfig.itemsCleared} \n\n Press E to take out the trash";
+                if (trashbinIntraction == null)
+                {
+                    trashbinIntraction = hit.collider.GetComponent<TrashbinClear>();
+                }
+
+                trashbinIntraction.UpdateText(itemConfig);
 
                 if (isLoocking && Input.GetKeyDown(KeyCode.E))
                 {
                     UpdateConfig();
                 }
+
+                 if (Vector3.Distance(trashbinIntraction.transform.position, gameObject.transform.position) > 4)
+                {
+                    interactable = null;
+                }
+                
             }
             else
             {
                 interactable = null;
             }
+        }
 
-            if (interactable != null)
+        if (interactable != null)
+        {
+            if (interactable != this && interactable != previousInteractable)
             {
-                if (interactable != this && interactable != previousInteractable)
-                {
-                    previousInteractable = interactable;
-                    previousInteractable.OnHoverEnter();
-                    messageText.gameObject.SetActive(true);
-                    isLoocking = true;
-                }
-            }
-            else if (previousInteractable != null)
-            {
-                previousInteractable.OnHoverExit();
-                messageText.gameObject.SetActive(false);
-                previousInteractable = null;
-                isLoocking = false;
+                previousInteractable = interactable;
+                previousInteractable.OnHoverEnter();
+                isLoocking = true;
             }
         }
+        else if (previousInteractable != null)
+        {
+            previousInteractable.OnHoverExit();
+            trashbinIntraction.ClearText();
+            previousInteractable = null;
+            isLoocking = false;
+        }
     }
+
 
     private void UpdateConfig()
     {
         itemConfig.itemsCleared += itemConfig.items;
         itemConfig.items = 0;
-
-        if(itemConfig.itemsInLevel == itemConfig.itemsCleared)
+        if (itemConfig.itemsInLevel == itemConfig.itemsCleared)
         {
+            trashbinIntraction = null;
             minigamesLoader.EndedMinigame();
         }
     }
 }
+

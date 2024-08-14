@@ -23,8 +23,6 @@ public class GarbageCollection : MonoBehaviour
     [SerializeField] private int minutes;
     [SerializeField] private int seconds;
 
-    private Vector3 lastPlayerPosition;
-
     private int countOfGarbage;
     private int index;
 

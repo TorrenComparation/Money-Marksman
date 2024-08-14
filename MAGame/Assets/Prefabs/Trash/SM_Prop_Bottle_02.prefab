@@ -137,5 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461d6920a727ea444abc26855d4e3e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableRadius: 2
   outline: {fileID: 0}
+  itemConfig: {fileID: 11400000, guid: 666898e5174c9eb488e8c7f6b7a9712b, type: 2}
+  _pickUpRange: 0
