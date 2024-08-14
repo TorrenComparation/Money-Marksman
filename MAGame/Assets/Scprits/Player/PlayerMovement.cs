@@ -15,10 +15,13 @@ public class PlayerMovement : MonoBehaviour
     private float moveY;
     private float lastWalkSpeed;
     private float lastRunSpeed;
+    private float timeDelay;
     private bool isRunning;
+    private bool isCrouch;
+    private string currentState = "DefaultState";
 
     private Vector3 direction = Vector3.zero;
-    public bool canMove = true;
+    [HideInInspector] public bool canMove = true;
 
 
     private void Start()
@@ -34,6 +37,13 @@ public class PlayerMovement : MonoBehaviour
         Walk();
         Jump();
         CameraFollowing();
+
+            var state = GetState();
+            if (state.Equals(currentState)) return;
+            currentState = state;
+            animator.CrossFade(currentState, 0.2f, 0);
+      
+      
     }
 
     private void Walk()
@@ -46,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isRunning == true)
             {
-                CameraShake(2);
+     
                 currentSpeedX = playerStatistic.runSpeed * moveX;
                 currentSpeedY = playerStatistic.runSpeed * moveY;
 
@@ -58,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                CameraShake(1);
+
                 currentSpeedX = playerStatistic.walkSpeed * moveX;
                 currentSpeedY = playerStatistic.walkSpeed * moveY;
 
@@ -80,10 +90,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl) && canMove == true)
         {
-            CameraShake(3);
             characterController.height = playerStatistic.crouchHeigth;
             playerStatistic.walkSpeed = playerStatistic.crouchSpeed;
             playerStatistic.runSpeed = playerStatistic.crouchSpeed;
+            isCrouch = true;
         }
         else
         {
@@ -91,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
             characterController.height = playerStatistic.defaultHeight;
             playerStatistic.walkSpeed = lastWalkSpeed;
             playerStatistic.runSpeed = lastRunSpeed;
+            isCrouch = false;
         }
     }
 
@@ -104,26 +115,41 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * playerStatistic.lookSpeed, 0);
         }
     }
-    public void CameraShake(int index)
+  
+    public string GetState()
     {
-
-        if (canMove)
+        timeDelay = 0.5f;
+        if (characterController.isGrounded)
         {
             if (moveY != 0 || moveX != 0)
             {
-                animator.SetInteger("TypeOfShacking", index);
+                timeDelay = 0.2f;
+                if (isCrouch)
+                {
+                  
+                    return "CrouchCameraShake";
+                }
+                else if (isRunning)
+                {
+                    return "RunCameraShake";
+                }
+                else
+                {
+                    return "WalkCameraShake";
+                }
             }
             else
             {
-                animator.SetInteger("TypeOfShacking", 0);
+                return "DefaultState";
             }
         }
         else
         {
-            animator.SetInteger("TypeOfShacking", 0);
+            return "DefaultState";
         }
-
+       
     }
+ 
     private void Jump()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -132,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
         direction = (forward * currentSpeedX) + (right * currentSpeedY);
 
-        if (Input.GetKey(KeyCode.Space) && canMove == true && characterController.isGrounded == true)
+        if (Input.GetKeyDown(KeyCode.Space) && canMove == true && characterController.isGrounded == true)
         {
             direction.y = playerStatistic.jumpForce;
         }

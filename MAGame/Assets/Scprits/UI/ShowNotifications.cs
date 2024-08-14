@@ -1,23 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class ShowNotifications : MonoBehaviour
 {
-    [SerializeField] private Animator _notificationAnimator;
-    [SerializeField] private TextMeshProUGUI _notificationText;
+    [SerializeField] private Animator notificationAnimator;
+    [SerializeField] private TextMeshProUGUI notificationText;
 
-    public void NotEnoughtMoney()
+    private Coroutine notificationCoroutine;
+
+    public void GetNotification(string message)
     {
-        StartCoroutine(Delay());
-        _notificationText.text = "Not Enought Money";
+        if (notificationCoroutine != null)
+        {
+            StopCoroutine(notificationCoroutine);
+        }
+
+        notificationText.text = message;
+        notificationCoroutine = StartCoroutine(ShowNotificationRoutine());
     }
-    private IEnumerator Delay()
-    {
-        _notificationAnimator.SetBool("GetNotification", true);
-        yield return new WaitForSeconds(1f);
-        _notificationAnimator.SetBool("GetNotification", false);
 
+    private IEnumerator ShowNotificationRoutine()
+    {
+        notificationAnimator.SetBool("GetNotification", true);
+        yield return new WaitForSeconds(1f);
+        notificationAnimator.SetBool("GetNotification", false);
     }
 }
